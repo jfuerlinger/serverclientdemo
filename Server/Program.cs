@@ -27,24 +27,25 @@ namespace Server
 
             //---get the incoming data through a network stream---
             NetworkStream nwStream = client.GetStream();
-            byte[] buffer = new byte[client.ReceiveBufferSize];
-
 
             string dataReceived = "";
             do
             {
                 //---read incoming stream---
+                byte[] buffer = new byte[client.ReceiveBufferSize];
                 int bytesRead = nwStream.Read(buffer, 0, client.ReceiveBufferSize);
 
                 //---convert the data received into a string---
                 dataReceived = Encoding.ASCII.GetString(buffer, 0, bytesRead);
                 Console.WriteLine("Received : " + dataReceived);
 
-                //---write back the text to the client---
-                Console.WriteLine("Sending back : " + dataReceived);
-                nwStream.Write(buffer, 0, bytesRead);
-
-            } while (dataReceived == "x");
+                if (dataReceived != "/dc")
+                {
+                    //---write back the text to the client---
+                    Console.WriteLine("Sending back : " + dataReceived);
+                    nwStream.Write(buffer, 0, bytesRead);
+                }
+            } while (dataReceived != "/dc");
 
             client.Close();
             listener.Stop();
