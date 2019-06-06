@@ -47,9 +47,10 @@ namespace Server
                 }
             } while (dataReceived != "/dc");
 
+            Console.WriteLine("Beenden ...");
+
             client.Close();
             listener.Stop();
-            Console.ReadLine();
         }
     }
 }
